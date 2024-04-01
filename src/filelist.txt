@@ -1,0 +1,12 @@
+./src/booth/compressor32.v
+./src/booth/compressor42.v
+./src/booth/booth_enc.v
+./src/booth/booth_multiplier.v
+./src/booth/partial_prod.v
+./src/display/bin_bcd.v
+./src/display/bcd_seg.v
+./src/display/top.v
+./src/display/pad_bcd.v
+./src/display/bcd_bin.v
+./src/test/seg_bcd.v
+./src/test/top_test.v

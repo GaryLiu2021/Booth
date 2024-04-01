@@ -1,0 +1,170 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dE:/Modelsim/riscv
+vbooth_enc
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+31
+!i10b 1
+!s100 g9TZ8W7il;5JfNJWgPh=m2
+IzPIO@YkJz8kbE@^8`bGzP0
+Z1 dE:/FDE-Lab/calculator/modelsim
+w1696591980
+8E:/FDE-Lab/calculator/src/booth_enc.v
+FE:/FDE-Lab/calculator/src/booth_enc.v
+L0 1
+Z2 OL;L;10.5;63
+Z3 !s108 1696593770.000000
+!s107 E:/FDE-Lab/calculator/src/booth_enc.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/FDE-Lab/calculator/src/booth_enc.v|
+!i113 0
+Z4 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z5 tCvgOpt 0
+vbooth_multiplier
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 ARe^25o7;8l=Fg9d>Jc443
+IkbH3KJ8z1eA6X_HJ@[PzE0
+R1
+w1696593767
+8E:\FDE-Lab\calculator\src\booth_multiplier.v
+FE:\FDE-Lab\calculator\src\booth_multiplier.v
+L0 1
+R2
+R3
+!s107 E:\FDE-Lab\calculator\src\booth_multiplier.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:\FDE-Lab\calculator\src\booth_multiplier.v|
+!i113 0
+R4
+R5
+vcompressor32
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 9X9Y45OUBUN?cz[:M@7e[1
+IzIGf1bme8IRjU[DCchAoB3
+R1
+Z6 w1696591718
+Z7 8E:/FDE-Lab/calculator/src/compressor32.v
+Z8 FE:/FDE-Lab/calculator/src/compressor32.v
+L0 1
+R2
+R3
+Z9 !s107 E:/FDE-Lab/calculator/src/compressor32.v|
+Z10 !s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/FDE-Lab/calculator/src/compressor32.v|
+!i113 0
+R4
+R5
+vcompressor32_cell
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 <iD>C@<]Qm]IM`8AWXPQ<1
+IMmHh7`kR]?45cSWG=;EFJ3
+R1
+R6
+R7
+R8
+L0 28
+R2
+R3
+R9
+R10
+!i113 0
+R4
+R5
+vcompressor42
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 `@FM3^4Sj7^IPk=03iGJ00
+IRJ4ldfZcn`?^f8jJ7PMa10
+R1
+Z11 w1696591708
+Z12 8E:/FDE-Lab/calculator/src/compressor42.v
+Z13 FE:/FDE-Lab/calculator/src/compressor42.v
+L0 1
+R2
+R3
+Z14 !s107 E:/FDE-Lab/calculator/src/compressor42.v|
+Z15 !s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/FDE-Lab/calculator/src/compressor42.v|
+!i113 0
+R4
+R5
+vcompressor42_cell
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 ol<FgPUSBCR?@U7Egl=S<3
+Io0MERRB8Q@?[[a^E`hahQ0
+R1
+R11
+R12
+R13
+L0 46
+R2
+R3
+R14
+R15
+!i113 0
+R4
+R5
+vpartial_prod
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 B`3UYj2[bKRJ:CeFfbfKS0
+Ij`R7=`CTn7fMOXBSeP:;P1
+R1
+w1696589469
+8E:/FDE-Lab/calculator/src/partial_prod.v
+FE:/FDE-Lab/calculator/src/partial_prod.v
+L0 1
+R2
+R3
+!s107 E:/FDE-Lab/calculator/src/partial_prod.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/FDE-Lab/calculator/src/partial_prod.v|
+!i113 0
+R4
+R5
+vtb_booth_multiplier
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 QFzO]4kJib_S149YNRMLz1
+ITZ@JY@[kM?20`=dR5U8UX1
+R1
+w1696591575
+8E:/FDE-Lab/calculator/src/testbench.v
+FE:/FDE-Lab/calculator/src/testbench.v
+L0 3
+R2
+R3
+!s107 E:/FDE-Lab/calculator/src/testbench.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|E:/FDE-Lab/calculator/src/testbench.v|
+!i113 0
+R4
+R5
