@@ -1,6 +1,3 @@
-# Get options
-num := false
-
 ROOT_PATH := $(abspath $(CURDIR)/../..)
 INC_PATH := $(ROOT_PATH)/src/include
 VSRC_PATH := $(ROOT_PATH)/src/booth
@@ -16,20 +13,23 @@ CWRAPFILE := $(WORKDIR)/$(TB_NAME).cpp
 
 VFLAGS += --timing -Wno-fatal --trace -cc -exe -build
 VFLAGS += -I$(INC_PATH)
+
+.PHONY: all run all-wave wave testnum
+
+testnum: 
 ifdef num
-VFLAGS += -DTEST_NUM=$(num)
+	$(eval VFLAGS += -DTESTNUM=$(num))
+	@echo "\033[1;34mMAKE: Test num set to $(num).\033[0m"
 endif
 
-.PHONY: all run all-wave wave
-
-all: $(INCS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE)
+all: $(INCS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE) testnum
 	verilator $(VFLAGS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE)
 
 run: all
 	@echo "\n\033[1;34mVERILATOR: Simulation Begin!\n"
 	@$(WORKDIR)/obj_dir/V$(TB_NAME)
 
-all-wave: $(INCS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE)
+all-wave: $(INCS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE) testnum
 	$(eval VFLAGS += -D__VCD_OUT)
 	$(warning new define __VCD_OUT)
 	verilator $(VFLAGS) $(TESTBENCH) $(VSRCS) $(CWRAPFILE)
