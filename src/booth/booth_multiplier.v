@@ -1,6 +1,9 @@
 // `define __DEBUG
+`include "define.v"
 
 module booth_multiplier(
+	input			clk,
+	input			rstn,
     input   [31:0]  multiplicand,
     input   [31:0]  multiplier,
 
@@ -124,14 +127,20 @@ module booth_multiplier(
         end
     endgenerate
 
+	// cut between pProduct and layer0
+	`GEN_DELAY_ARRAY(layer0_pProduct_0,40,4,1,layer0_pProduct_0_del);
+	`GEN_DELAY_ARRAY(layer0_pProduct_1,42,4,1,layer0_pProduct_1_del);
+	`GEN_DELAY_ARRAY(layer0_pProduct_2,42,4,1,layer0_pProduct_2_del);
+	`GEN_DELAY_ARRAY(layer0_pProduct_3,42,4,1,layer0_pProduct_3_del);
+
     // layer 0
     compressor42 #(
         .WIDTH ( 40 )
     ) u_compressor42_l0_0 (
-        .x0                      ( layer0_pProduct_0[0]     ),
-        .x1                      ( layer0_pProduct_0[1]     ),
-        .x2                      ( layer0_pProduct_0[2]     ),
-        .x3                      ( layer0_pProduct_0[3]     ),
+        .x0                      ( layer0_pProduct_0_del[0]     ),
+        .x1                      ( layer0_pProduct_0_del[1]     ),
+        .x2                      ( layer0_pProduct_0_del[2]     ),
+        .x3                      ( layer0_pProduct_0_del[3]     ),
 
         .cout                    ( layer0_cout_0   ),
         .sum                     ( layer0_sum_0    )
@@ -141,10 +150,10 @@ module booth_multiplier(
     compressor42 #(
         .WIDTH ( 42 )
     ) u_compressor42_l0_1 (
-        .x0                      ( layer0_pProduct_1[0]     ),
-        .x1                      ( layer0_pProduct_1[1]     ),
-        .x2                      ( layer0_pProduct_1[2]     ),
-        .x3                      ( layer0_pProduct_1[3]     ),
+        .x0                      ( layer0_pProduct_1_del[0]     ),
+        .x1                      ( layer0_pProduct_1_del[1]     ),
+        .x2                      ( layer0_pProduct_1_del[2]     ),
+        .x3                      ( layer0_pProduct_1_del[3]     ),
 
         .cout                    ( layer0_cout_1   ),
         .sum                     ( layer0_sum_1    )
@@ -153,10 +162,10 @@ module booth_multiplier(
     compressor42 #(
         .WIDTH ( 42 )
     ) u_compressor42_l0_2 (
-        .x0                      ( layer0_pProduct_2[0]     ),
-        .x1                      ( layer0_pProduct_2[1]     ),
-        .x2                      ( layer0_pProduct_2[2]     ),
-        .x3                      ( layer0_pProduct_2[3]     ),
+        .x0                      ( layer0_pProduct_2_del[0]     ),
+        .x1                      ( layer0_pProduct_2_del[1]     ),
+        .x2                      ( layer0_pProduct_2_del[2]     ),
+        .x3                      ( layer0_pProduct_2_del[3]     ),
 
         .cout                    ( layer0_cout_2   ),
         .sum                     ( layer0_sum_2    )
@@ -165,10 +174,10 @@ module booth_multiplier(
     compressor42 #(
         .WIDTH ( 42 )
     ) u_compressor42_l0_3 (
-        .x0                      ( layer0_pProduct_3[0]     ),
-        .x1                      ( layer0_pProduct_3[1]     ),
-        .x2                      ( layer0_pProduct_3[2]     ),
-        .x3                      ( layer0_pProduct_3[3]     ),
+        .x0                      ( layer0_pProduct_3_del[0]     ),
+        .x1                      ( layer0_pProduct_3_del[1]     ),
+        .x2                      ( layer0_pProduct_3_del[2]     ),
+        .x3                      ( layer0_pProduct_3_del[3]     ),
 
         .cout                    ( layer0_cout_3   ),
         .sum                     ( layer0_sum_3    )
@@ -184,14 +193,18 @@ module booth_multiplier(
     assign layer1_pProduct_1[2] = {1'b0, layer0_sum_3, 8'd0};
     assign layer1_pProduct_1[3] = {1'b0, layer0_cout_3[40:0], 9'd0};
 
+	// cut between layer0 and layer1
+	`GEN_DELAY_ARRAY(layer1_pProduct_0,49,4,1,layer1_pProduct_0_del);
+	`GEN_DELAY_ARRAY(layer1_pProduct_1,51,4,1,layer1_pProduct_1_del);
+
     // layer 1
     compressor42 #(
         .WIDTH ( 49 )
     ) u_compressor42_l1_0 (
-        .x0                      ( layer1_pProduct_0[0]     ),
-        .x1                      ( layer1_pProduct_0[1]     ),
-        .x2                      ( layer1_pProduct_0[2]     ),
-        .x3                      ( layer1_pProduct_0[3]     ),
+        .x0                      ( layer1_pProduct_0_del[0]     ),
+        .x1                      ( layer1_pProduct_0_del[1]     ),
+        .x2                      ( layer1_pProduct_0_del[2]     ),
+        .x3                      ( layer1_pProduct_0_del[3]     ),
 
         .cout                    ( layer1_cout_0   ),
         .sum                     ( layer1_sum_0    )
@@ -200,10 +213,10 @@ module booth_multiplier(
     compressor42 #(
         .WIDTH ( 51 )
     ) u_compressor42_l1_1 (
-        .x0                      ( layer1_pProduct_1[0]     ),
-        .x1                      ( layer1_pProduct_1[1]     ),
-        .x2                      ( layer1_pProduct_1[2]     ),
-        .x3                      ( layer1_pProduct_1[3]     ),
+        .x0                      ( layer1_pProduct_1_del[0]     ),
+        .x1                      ( layer1_pProduct_1_del[1]     ),
+        .x2                      ( layer1_pProduct_1_del[2]     ),
+        .x3                      ( layer1_pProduct_1_del[3]     ),
 
         .cout                    ( layer1_cout_1   ),
         .sum                     ( layer1_sum_1    )
@@ -215,14 +228,17 @@ module booth_multiplier(
     assign layer2_pProduct[2] = {layer1_sum_1, 14'd0};
     assign layer2_pProduct[3] = {layer1_cout_1[49:0], 15'b0};
 
+	// cut between layer1 and layer2
+	`GEN_DELAY_ARRAY(layer2_pProduct,65,4,1,layer2_pProduct_del);
+
     // layer 2
     compressor42 #(
         .WIDTH ( 65 )
     ) u_compressor42_l2 (
-        .x0                      ( layer2_pProduct[0]     ),
-        .x1                      ( layer2_pProduct[1]     ),
-        .x2                      ( layer2_pProduct[2]     ),
-        .x3                      ( layer2_pProduct[3]     ),
+        .x0                      ( layer2_pProduct_del[0]     ),
+        .x1                      ( layer2_pProduct_del[1]     ),
+        .x2                      ( layer2_pProduct_del[2]     ),
+        .x3                      ( layer2_pProduct_del[3]     ),
 
         .cout                    ( layer2_cout   ),
         .sum                     ( layer2_sum    )
@@ -230,22 +246,31 @@ module booth_multiplier(
 
     assign layer3_pProduct[0] = layer2_sum;
     assign layer3_pProduct[1] = layer2_cout << 1;
-    assign layer3_pProduct[2] = last_pProduct;
+
+	wire [64:0] last_pProduct_del;
+	`GEN_DELAY(clk, rstn, last_pProduct, 65, 3, last_pProduct_del)
+    assign layer3_pProduct[2] = last_pProduct_del;
+
+	// cut between layer2 and layer3
+	`GEN_DELAY_ARRAY(layer3_pProduct,65,3,1,layer3_pProduct_del);
 
     // layer 3
     compressor32 #(
         .WIDTH ( 65 )
     ) u_compressor32_l3 (
-        .x0                      ( layer3_pProduct[0]     ),
-        .x1                      ( layer3_pProduct[1]     ),
-        .x2                      ( layer3_pProduct[2]     ),
+        .x0                      ( layer3_pProduct_del[0]     ),
+        .x1                      ( layer3_pProduct_del[1]     ),
+        .x2                      ( layer3_pProduct_del[2]     ),
 
         .cout                    ( layer4_pProduct[0]   ),
         .sum                     ( layer4_pProduct[1]    )
     );
 
+	// cut between layer3 and layer4
+	`GEN_DELAY_ARRAY(layer4_pProduct,65,2,1,layer4_pProduct_del);
+
     // layer 4
-    wire [64:0] result_ex = (layer4_pProduct[0] << 1) + layer4_pProduct[1];
+    wire [64:0] result_ex = (layer4_pProduct_del[0] << 1) + layer4_pProduct_del[1];
     assign result = result_ex[63:0];
 
 // Test
@@ -272,7 +297,7 @@ module booth_multiplier(
             if(start == 0) begin
                 ref[35:0] = ppl[35:0];
                 for(i=1;i<=finish;i=i+1) begin
-                    buff = ppl[36*i+:36] << 2*(i-1); //! bug: "<<" operator privilege
+                    buff = ppl[36*i+:36] << 2*(i-1); //! bug: "<<" operator priority
                     // $display("ref + ppl:\t%b +\n\t\t%64b", ref, buff);
                     ref = ref + buff;
                 end
