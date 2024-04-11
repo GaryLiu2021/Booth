@@ -17,7 +17,7 @@ GenerateDelaySignal #( \
 wire [width-1:0] out [depth-1:0]; \
 genvar ``src``_i; \
 generate \
-	for(``src``_i=0;``src``_i<depth;``src``_i=``src``_i+1) begin: GEN_DELAY_ARRAY \
+	for(``src``_i=0;``src``_i<depth;``src``_i=``src``_i+1) begin: GEN_DELAY_ARRAY_``src`` \
 		wire    [width-1:0] ``src``Iter = src[``src``_i]; \
 		`GEN_DELAY(clk, rstn, ``src``Iter, width, delay, out[``src``_i]) \
 	end \
