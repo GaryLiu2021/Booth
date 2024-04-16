@@ -75,7 +75,7 @@ booth_multiplier  u_booth_multiplier (
 				$stop;
 			end
 		S_DONE: begin
- 			$display("\033[1;32m\nDUT passed %0d tests.\n\033[0m",TESTNUM);
+ 			$display("\n\033[1;32mDUT passed %0d tests.\033[0m\n",TESTNUM);
 			$finish;
 		end
 	endcase
