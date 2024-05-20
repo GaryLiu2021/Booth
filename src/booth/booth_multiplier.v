@@ -2,12 +2,12 @@
 `include "define.v"
 
 module booth_multiplier(
-	input			clk,
-	input			rstn,
-    input   [31:0]  multiplicand,
-    input   [31:0]  multiplier,
+	input				clk,
+	input				rstn,
+    input		[31:0]  multiplicand,
+    input		[31:0]  multiplier,
 
-    output  [63:0]  result
+    output	reg	[63:0]  result
 );
 
     // booth_enc Inputs
@@ -34,46 +34,43 @@ module booth_multiplier(
                 .partial_double          ( partial_double[i]     )
             );
             if(i==0)
-                partial_prod  u_partial_prod (
+                partial_prod #(.MODE_FIRST(1'b1))
+				u_partial_prod  (
                     .multiplicand            ( multiplicand        ),
-                    .partial_zero            ( partial_zero[i]        ),
-                    .partial_one             ( partial_one[i]         ),
-                    .partial_double          ( partial_double[i]      ),
-                    .partial_reverse         ( partial_reverse[i]    ),
-                    .partial_tail_in         (        ),
-                    .is_first_Pproduct       ( 1'b1   ),
-                    .is_last_Pproduct        ( 1'b0   ),
+                    .partial_zero            ( partial_zero[i]     ),
+                    .partial_one             ( partial_one[i]      ),
+                    .partial_double          ( partial_double[i]   ),
+                    .partial_reverse         ( partial_reverse[i]  ),
+                    .partial_tail_in         ( 2'd0   ),
 
                     .partial_tail_out        ( {partial_tail[2*i+1], partial_tail[2*i]} ),
-                    .partial_product         ( partial_product[i]     )
+                    .partial_product         ( partial_product[i]  )
                 );
             else if(i==15)
-                partial_prod  u_partial_prod (
+                partial_prod #(.MODE_LAST(1'b1))
+				u_partial_prod (
                     .multiplicand            ( multiplicand        ),
-                    .partial_zero            ( partial_zero[i]        ),
-                    .partial_one             ( partial_one[i]         ),
-                    .partial_double          ( partial_double[i]      ),
-                    .partial_reverse         ( partial_reverse[i]    ),
+                    .partial_zero            ( partial_zero[i]     ),
+                    .partial_one             ( partial_one[i]      ),
+                    .partial_double          ( partial_double[i]   ),
+                    .partial_reverse         ( partial_reverse[i]  ),
                     .partial_tail_in         ( {partial_tail[2*i-1], partial_tail[2*i-2]} ),
-                    .is_first_Pproduct       ( 1'b0   ),
-                    .is_last_Pproduct        ( 1'b1   ),
 
                     .partial_tail_out        ( {partial_tail[2*i+1], partial_tail[2*i]} ),
-                    .partial_product         ( partial_product[i]     )
+                    .partial_product         ( partial_product[i]  )
                 );
             else
-                partial_prod  u_partial_prod (
+                partial_prod #(.MODE_MID(1'b1))
+				u_partial_prod (
                     .multiplicand            ( multiplicand        ),
-                    .partial_zero            ( partial_zero[i]        ),
-                    .partial_one             ( partial_one[i]         ),
-                    .partial_double          ( partial_double[i]      ),
-                    .partial_reverse         ( partial_reverse[i]    ),
+                    .partial_zero            ( partial_zero[i]     ),
+                    .partial_one             ( partial_one[i]      ),
+                    .partial_double          ( partial_double[i]   ),
+                    .partial_reverse         ( partial_reverse[i]  ),
                     .partial_tail_in         ( {partial_tail[2*i-1], partial_tail[2*i-2]} ),
-                    .is_first_Pproduct       ( 1'b0   ),
-                    .is_last_Pproduct        ( 1'b0   ),
 
                     .partial_tail_out        ( {partial_tail[2*i+1], partial_tail[2*i]} ),
-                    .partial_product         ( partial_product[i]     )
+                    .partial_product         ( partial_product[i]  )
                 );
         end
     endgenerate
@@ -107,11 +104,7 @@ module booth_multiplier(
     wire [64:0] layer2_cout;
     wire [64:0] layer2_sum;
 
-    wire [64:0] last_pProduct;
-    assign last_pProduct = {33'd0, {partial_tail[31], partial_tail[30]}, 30'd0};
-    wire [64:0] layer3_pProduct [2:0];
-    wire [64:0] layer4_pProduct [1:0];
-
+    wire [64:0] layer3_pProduct [1:0];
 
     // partial product -> layer 0 input
     assign layer0_pProduct_0[0] = {4'b0000,partial_product[0]};
@@ -247,31 +240,13 @@ module booth_multiplier(
     assign layer3_pProduct[0] = layer2_sum;
     assign layer3_pProduct[1] = layer2_cout << 1;
 
-	wire [64:0] last_pProduct_del;
-	`GEN_DELAY(clk, rstn, last_pProduct, 65, 3, last_pProduct_del)
-    assign layer3_pProduct[2] = last_pProduct_del;
+	wire [64:0] result_ex = layer3_pProduct[0] + layer3_pProduct[1];
 
-	// cut between layer2 and layer3
-	`GEN_DELAY_ARRAY(layer3_pProduct,65,3,1,layer3_pProduct_del);
-
-    // layer 3
-    compressor32 #(
-        .WIDTH ( 65 )
-    ) u_compressor32_l3 (
-        .x0                      ( layer3_pProduct_del[0]     ),
-        .x1                      ( layer3_pProduct_del[1]     ),
-        .x2                      ( layer3_pProduct_del[2]     ),
-
-        .cout                    ( layer4_pProduct[0]   ),
-        .sum                     ( layer4_pProduct[1]    )
-    );
-
-	// cut between layer3 and layer4
-	`GEN_DELAY_ARRAY(layer4_pProduct,65,2,1,layer4_pProduct_del);
-
-    // layer 4
-    wire [64:0] result_ex = (layer4_pProduct_del[0] << 1) + layer4_pProduct_del[1];
-    assign result = result_ex[63:0];
+	always @(posedge clk or negedge rstn)
+		if(!rstn)
+			result <= 'd0;
+		else
+			result <= result_ex[63:0];
 
 // Test
 `ifdef __DEBUG
