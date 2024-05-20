@@ -240,7 +240,10 @@ module booth_multiplier(
     assign layer3_pProduct[0] = layer2_sum;
     assign layer3_pProduct[1] = layer2_cout << 1;
 
-	wire [64:0] result_ex = layer3_pProduct[0] + layer3_pProduct[1];
+	// cut between layer2 and layer3
+	`GEN_DELAY_ARRAY(layer3_pProduct,65,2,1,layer3_pProduct_del);
+
+	wire [64:0] result_ex = layer3_pProduct_del[0] + layer3_pProduct_del[1];
 
 	always @(posedge clk or negedge rstn)
 		if(!rstn)
