@@ -6,6 +6,13 @@
 
 module booth_test;
 
+//sdf_annotation for post simulation
+initial
+begin
+$sdf_annotate("/export4/Home/iac02/liujialin/projects/Booth/4Backend/release/BOOTH/eco1/BOOTH/sdf",BOOTH);
+end
+////
+
 localparam	S_IDLE	=	0,
 			S_WORK	=	1,
 			S_CORN	=	2,
@@ -20,9 +27,9 @@ reg clk	= 0;
 always #(PERIOD/2) clk=~clk;
 
 // Input driver
-reg			rstn	=	0;
-reg	[31:0]	random_in0, random_in1;
-reg	[1:0]	inputState = S_IDLE;
+reg   rstn	=	0;
+reg [31:0] random_in0, random_in1;
+reg	[1:0] inputState = S_IDLE;
 
 parameter COR_NUM = 9;
 integer corner_case_count = 0;
